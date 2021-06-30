@@ -68,7 +68,7 @@ export default class GPURunner {
 				PI: Math.PI,
 				TWO_PI: 2 * Math.PI,
 				MIN_STEP_LEN: 0.1,
-				MAX_STEP: 50
+				MAX_STEP: 30
 			},
 			output: [this.hight, this.width, this.N],
 		})
@@ -81,7 +81,10 @@ export default class GPURunner {
 		this.max_distance = hight > width ? hight : width;
 	}
 
-
+	setN(N: number) {
+		this.N = N
+		this.calculate = this.newCalculate()
+	}
 	setCircles(circleInfos: number[][][]) {
 		this.circleInfos = circleInfos
 	}

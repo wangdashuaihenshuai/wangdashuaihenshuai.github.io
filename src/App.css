@@ -32,7 +32,22 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.tool-bar {
+  width: 400px;
+  background: rgb(255, 255, 255);
+  position: fixed;
+  top: 100px;
+}
+
+.stop-bar {
+  width: 200px;
+  margin: 10px;
+  position: fixed;
+  top: 10px;
 }

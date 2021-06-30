@@ -1,8 +1,8 @@
 import { GPU } from 'gpu.js';
 import { useEffect, useState } from 'react';
 import GPURunner from '../../lib/gpuRun';
-const width = 800
-const hight = 800
+const width = window.innerWidth
+const hight = window.innerHeight
 
 const gpu = new GPU();
 
@@ -44,8 +44,8 @@ const circleInfos: Circle[] = []
 
 function addCircleInfos(info: Circle) {
 	circleInfos.push({
-		x: info.x * width,
-		y: info.y * hight,
+		x: info.x * hight,
+		y: info.y * width,
 		r: info.r * hight,
 		light: info.light
 	})
@@ -59,19 +59,20 @@ addCircleInfos({
 })
 
 addCircleInfos({
-	x: 0.5,
-	y: 0.1,
+	x: 0.3,
+	y: 0.3,
 	r: 0.1,
 	light: { r: 0, g: 2, b: 0 },
 })
 
 export default function GPUCircle() {
-	const [N, setN] = useState<number>(64)
+	const [N, setN] = useState<number>(32)
+	console.log(setN)
 
-	function Run() {
-		render();
-		window.requestAnimationFrame(Run)
-	}
+	// function Run() {
+	// 	render();
+	// 	window.requestAnimationFrame(Run)
+	// }
 
 	useEffect(() => {
 		const dom = window.document.getElementById('GPUCircle')
@@ -81,12 +82,11 @@ export default function GPUCircle() {
 			const gpuCircle = circleInfosToGPUCircle(circleInfos)
 			runner.setCircles(gpuCircle)
 			const lightInfo = runner.run()
-			console.log(lightInfo)
+			console.log(lightInfo, width, hight)
 			/* @ts-ignore */
-			const ret = render(gpuCircle, lightInfo, N)
-			console.log(ret)
+			render(gpuCircle, lightInfo, N)
 		}
-	}, [])
+	}, [N])
 
 	return (
 		<div id="GPUCircle">

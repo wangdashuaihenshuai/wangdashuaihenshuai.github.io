@@ -70,7 +70,7 @@ export default class GPURunner {
 				MIN_STEP_LEN: 0.1,
 				MAX_STEP: 50
 			},
-			output: [this.width, this.hight, this.N],
+			output: [this.hight, this.width, this.N],
 		})
 	}
 
@@ -83,7 +83,6 @@ export default class GPURunner {
 
 
 	setCircles(circleInfos: number[][][]) {
-		console.log(circleInfos)
 		this.circleInfos = circleInfos
 	}
 

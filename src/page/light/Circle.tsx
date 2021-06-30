@@ -1,79 +1,71 @@
-import { trace } from 'console';
 import { GPU } from 'gpu.js';
 import { useEffect, useState } from 'react';
+import Runner from '../../lib/run';
+import GPURunner from '../../lib/gpuRun';
+const width = 100
+const hight = 100
+
 const gpu = new GPU();
-const render = gpu.createKernel(function () {
-	this.color(0, 0, 0, 1);
-}).setOutput([1080, 960]).setGraphical(true);
 
-
-function Run() {
-	render();
-	window.requestAnimationFrame(Run)
-}
+/* @ts-ignore */
+const render = gpu.createKernel(function (values) {
+	/* @ts-ignore */
+	this.color(values[this.thread.x][this.thread.y][0], values[this.thread.x][this.thread.y][1], values[this.thread.x][this.thread.y][2], 1);
+}).setOutput([width, hight]).setGraphical(true);
 
 const canvas = render.canvas;
 
-const PI = Math.PI
-const TWO_PI = 2 * PI
-const MIN_STEP_LEN = 0.1
-const MAX_STEP = 10
-const MAX_DISTANCE = 1080
+const circleInfos: Circle[] = []
 
-const Rand = function () {
-	return Math.random()
+function addCircleInfos(info: Circle) {
+	circleInfos.push({
+		x: info.x * width,
+		y: info.y * hight,
+		r: info.r * hight,
+		light: info.light
+	})
 }
 
-interface CircleInfo {
-	x: number
-	y: number
+function circleInfosToGPUCircle(infos: Circle[]): number[][][] {
+	const ret = []
+	for (const info of infos) {
+		ret.push(
+			[
+				[info.x, info.y, info.r],
+				[info.light.r, info.light.g, info.light.b]
+			]
+		)
+	}
+
+	return ret
 }
+
+addCircleInfos({
+	x: 0.5,
+	y: 0.5,
+	r: 0.1,
+	light: { r: 2, g: 2, b: 2 },
+})
 
 export default function Circle() {
 	const [N, setN] = useState<number>(64)
-	const [circleInfos, setCircleInfos] = useState<CircleInfo[]>([])
 
-	setCircleInfos([{
-		x: 540,
-		y: 480,
-	}])
-
-	const sqrt =
-
-	const circleSDF = function (x: number, y: number, cx: number, cy: number, cr: number): number {
-		const dx = x - cx
-		const dy = y - cy
-		return Math.sqrt(dx * dx + dy * dy) - cr
-	}
-
-
-	const sample = function (x: number, y: number): number {
-		let sum = 0
-		for (let i = 0; i < N; i++) {
-			const a = TWO_PI * Rand()
-			sum = sum + trace(x, y, Math.cos(a), Math.sin(a))
-		}
-		return sum / N
-	}
-
-	const SDF = function ()
-
-	const trace = function (x: number, y: number, dx: number, dy: number): number {
-		let d = 0
-		for (let i = 0; i < MAX_STEP && d < MAX_DISTANCE; i++) {
-			for (const circleInfo of circleInfos) {
-				const st = 
-			}
-		}
+	function Run() {
+		render();
+		window.requestAnimationFrame(Run)
 	}
 
 	useEffect(() => {
 		const dom = window.document.getElementById('Circle')
 		if (dom) {
 			dom.appendChild(canvas)!;
-			Run()
+			const runner = new GPURunner(N, width, hight)
+			runner.setCircles(circleInfosToGPUCircle(circleInfos))
+			const ret = runner.run()
+			console.log(ret)
+			/* @ts-ignore */
+			// render(ret)
 		}
-
 	}, [])
 
 	return (

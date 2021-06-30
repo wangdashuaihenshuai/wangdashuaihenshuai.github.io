@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Circle from "./page/light/Circle"
+import GPUCircle from "./page/light/GPUCircle"
 
 function App() {
   return (
     <div className="App">
-      <Circle />
+      <GPUCircle />
     </div>
   );
 }

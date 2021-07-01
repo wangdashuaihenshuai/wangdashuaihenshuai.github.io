@@ -52,6 +52,7 @@ code {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   to {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
@@ -63,11 +64,25 @@ code {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   to {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
 }
 
+.tool-bar {
+  width: 400px;
+  background: rgb(255, 255, 255);
+  position: fixed;
+  top: 100px;
+}
 
-/*# sourceMappingURL=main.9d5b29c0.chunk.css.map*/
+.stop-bar {
+  width: 200px;
+  margin: 10px;
+  position: fixed;
+  top: 10px;
+}
+
+/*# sourceMappingURL=main.41b000e7.chunk.css.map*/

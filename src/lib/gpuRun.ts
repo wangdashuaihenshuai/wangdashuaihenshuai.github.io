@@ -85,6 +85,7 @@ export default class GPURunner {
 		this.N = N
 		this.calculate = this.newCalculate()
 	}
+
 	setCircles(circleInfos: number[][][]) {
 		this.circleInfos = circleInfos
 	}

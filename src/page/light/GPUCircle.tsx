@@ -64,20 +64,14 @@ const initCanvas = function () {
 
 
 /* @ts-ignore */
-window.circleInfos = []
-/* @ts-ignore */
-const circleInfos = window.circleInfos
-let isStop = false
+const circleInfos: Circle[] = []
 function addCircleInfos(info: Circle) {
-	isStop = true
 	circleInfos.push({
 		x: info.x * hight,
 		y: info.y * width,
 		r: info.r * hight,
 		light: info.light
 	})
-	initCanvas()
-	isStop = false
 }
 
 addCircleInfos({
@@ -86,16 +80,6 @@ addCircleInfos({
 	r: 0.1,
 	light: { r: 0, g: 0, b: 2 },
 })
-
-/* @ts-ignore */
-window.addCircleInfos = function () {
-	addCircleInfos({
-		x: 1,
-		y: 1,
-		r: 0.1,
-		light: { r: 2, g: 0, b: 2 },
-	})
-}
 
 const circleSDF = function (x: number, y: number, info: Circle): number {
 	const dx = x - info.x
@@ -114,26 +98,19 @@ const findCircle = function (x: number, y: number): Circle | null {
 	return null
 }
 
-addCircleInfos({
-	x: 0,
-	y: 0,
-	r: 0.1,
-	light: { r: 0, g: 2, b: 0 },
-})
+const number = 5
+for (let index = 0; index < number; index++) {
+	addCircleInfos({
+		x: 0,
+		y: 0,
+		r: 0.1 * Math.random(),
+		light: { r: 2 * Math.random(), g: 2 * Math.random(), b: 2 * Math.random() },
+	})
+}
 
-addCircleInfos({
-	x: 0,
-	y: 0,
-	r: 0.1,
-	light: { r: 4, g: 0, b: 0 },
-})
 
 
 const frame = function (runner: GPURunner) {
-	if (isStop) {
-		return
-	}
-
 	const gpuCircle = circleInfosToGPUCircle(circleInfos)
 	runner.setCircles(gpuCircle)
 	const lightInfo = runner.run()

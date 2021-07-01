@@ -128,6 +128,7 @@ const getXYFromEvent = function (event: any): { x: number, y: number } {
 let state = "sleep"
 
 let N = 2
+let LastN = 2
 let selectCircle: Circle | null = null
 export default function GPUCircle() {
 	const [openWindow, setOpenWindow] = useState<boolean>(false)
@@ -168,6 +169,11 @@ export default function GPUCircle() {
 			return
 		}
 
+		if (N !== 1) {
+			LastN = N
+			onNChange(1)
+		}
+
 		const { x, y } = getXYFromEvent(event)
 		selectCircle.x = x
 		selectCircle.y = y
@@ -176,6 +182,8 @@ export default function GPUCircle() {
 	const onMouseUp = function (event: any) {
 		if (state === "start") {
 			state = "sleep"
+			console.log(LastN)
+			onNChange(LastN)
 		}
 	}
 

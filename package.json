@@ -88,7 +88,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^9",
-    "postcss": "^7",
+    "postcss": "^8",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "html-webpack-plugin": "4.5.0",
     "identity-obj-proxy": "3.0.0",
